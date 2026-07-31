@@ -2,25 +2,27 @@ name: Build APK
 
 on:
   push:
-    branches: [(root)]
+    branches: [ "(root)" ]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     container:
       image: kivy/buildozer:latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Build APK
         run: |
-          buildozer android debug
+          yes y | buildozer android debug
 
       - name: Upload APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: apk
+          name: FocusMode-APK
           path: bin/*.apk
