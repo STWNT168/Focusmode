@@ -2,7 +2,7 @@ name: Build Focus Mode APK
 
 on:
   push:
-    branches: [ main ]
+    branches: [ (root)]
   workflow_dispatch:
 
 jobs:
