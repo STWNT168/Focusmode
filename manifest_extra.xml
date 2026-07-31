@@ -1,0 +1,20 @@
+<!--
+  This fragment is merged into AndroidManifest.xml by buildozer via
+  android.extra_manifest_xml in buildozer.spec. It:
+    1. Declares the permissions needed to read usage stats / notifications.
+    2. Registers NotifListener as a bound NotificationListenerService.
+-->
+<uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+    tools:ignore="ProtectedPermissions" />
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+<service
+    android:name="org.focusmode.app.NotifListener"
+    android:label="Focus Mode Notification Filter"
+    android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+    android:exported="false">
+    <intent-filter>
+        <action android:name="android.service.notification.NotificationListenerService" />
+    </intent-filter>
+</service>
