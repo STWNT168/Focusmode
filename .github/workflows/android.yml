@@ -1,37 +1,26 @@
-name: Build Android APK
+name: Build APK
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - (root)
+    branches: [(root)]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    container:
+      image: kivy/buildozer:latest
 
-      - name: Cache Buildozer
-        uses: actions/cache@v4
-        with:
-          path: |
-            .buildozer
-            ~/.buildozer
-          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
-          restore-keys: |
-            buildozer-${{ runner.os }}-
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Build APK
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
-        with:
-          command: buildozer android debug
+        run: |
+          buildozer android debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: FocusMode-APK
-          path: ${{ steps.buildozer.outputs.filename }}
+          name: apk
+          path: bin/*.apk
