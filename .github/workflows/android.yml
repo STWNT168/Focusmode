@@ -16,6 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Pin pip to a compatible version
+        run: |
+          echo "pip<24.1" > /tmp/constraints.txt
+          echo "PIP_CONSTRAINT=/tmp/constraints.txt" >> $GITHUB_ENV
+          python3 -m pip install --user "pip<24.1"
+
       - name: Build APK
         run: |
           yes y | buildozer android debug
